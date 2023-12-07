@@ -1,37 +1,36 @@
                                                              BCD ADDITION
+
 .model small
-.stack 100H
 .386
 .data
-num1 DD 00000000H
-num2 DD 00000000H
-num3 DD 00000000H
-msg db 10,13,"Enter the first number:$"
-msg1 db 10,13,"Enter the second number:$"
-msg2 db 10,13,"The sum is:$"
+no1 dd 00000000H
+no2 dd 00000000H
+no3 dd 00000000H
+msg1 db 10,13,"Enter the first no.:: $"
+msg2 db 10,13,"Enter the second no.:: $"
+msg3 db 10,13,"The Resultant sum is:: $"
 .code
 .startup
-MOV AH,09
-MOV DX,OFFSET msg
-INT 21H
-MOV EBX,0
-MOV CX,8
-AGAIN:
-MOV AH,01
-INT 21H
-CMP AL,"A"
-JGE L2
-SUB AL,30H
-SHL EBX,4
-ADD BL,AL
-LOOP AGAIN
-MOV num1,EBX
 MOV AH,09
 MOV DX,OFFSET msg1
 INT 21H
 MOV EBX,0
 MOV CX,8
-AGAIN1:MOV AH,01
+AGAIN: MOV AH,01;1ST NO ENTERED
+INT 21H
+CMP AL,'A'
+JGE L2
+SUB AL,30H
+SHL EBX,4
+ADD BL,AL
+LOOP AGAIN
+MOV no1,EBX
+MOV AH,09
+MOV DX,OFFSET msg2
+INT 21H
+MOV EBX,0
+MOV CX,8
+AGAIN1:MOV AH,01 ;2ND NO ENTERED
 INT 21H
 CMP AL,'A'
 JGE L2
@@ -39,12 +38,9 @@ SUB AL,30H
 SHL EBX,4
 ADD BL,AL
 LOOP AGAIN1
-MOV num2,EBX
-mov ax,word ptr num1
-mov dx,word ptr num2
-.model small
-.stack 100H
-.386
+MOV no2,EBX
+mov ax, word ptr no1
+mov dx, word ptr no2
 add al,dl
 daa
 mov bl,al
@@ -52,9 +48,9 @@ mov al,ah
 adc al,dh
 daa
 mov bh,al
-mov word ptr num3,bx
-mov ax,word ptr num1+2
-mov dx,word ptr num2+2
+mov word ptr no3,bx
+mov ax, word ptr no1+2
+mov dx, word ptr no2+2
 adc al,dl
 daa
 mov bl,al
@@ -62,108 +58,101 @@ mov al,ah
 adc al,dh
 daa
 mov bh,al
-mov word ptr num3+2,bx
-mov ebx,num3
+mov word ptr no3+2,bx
+mov ebx,no3
 mov ah,09h
-mov dx,offset msg2
+mov dx,offset msg3
 int 21h
 jnc l6
 mov ah,02h
 mov dl,"1"
 int 21h
-l6:
-mov cx,8
-again2:
-ROL ebx,4
-mov dl,bl
-and dl,0fh
-add dl,30h
-mov ah,02
-int 21h
-loop again2
-L2:
-mov ah,4ch
-int 21h
-end
+l6: MOV CX,8
+AGAIN2: ROL EBX,4
+MOV DL,BL
+AND DL,0FH
+ADD DL,30H
+MOV AH,02
+INT 21H
+LOOP AGAIN2
+L2:.EXIT
+END
 
                                                                         BCD SUBTRACTION
+.model small
+.386
 .data
-num1 DD 00000000H
-num2 DD 00000000H
-num3 DD 00000000H
-msg db 10,13,"Enter the first number:$"
-msg1 db 10,13,"Enter the second number:$"
-msg2 db 10,13,"The difference is:$"
+no1 dd 00000000H
+no2 dd 00000000H
+no3 dd 00000000H
+msg1 db 10,13,"Enter the first no.:: $"
+msg2 db 10,13,"Enter the second no.:: $"
+msg3 db 10,13,"The Resultant output is:: $"
 .code
 .startup
-MOV AH,09
-MOV DX,OFFSET msg
-INT 21H
-MOV EBX,0
-MOV CX,8
-AGAIN:
-MOV AH,01
-INT 21H
-CMP AL,"A"
-JGE L2
-SUB AL,30H
-SHL EBX,4
-ADD BL,AL
-LOOP AGAIN
-MOV num1,EBX
 MOV AH,09
 MOV DX,OFFSET msg1
 INT 21H
 MOV EBX,0
 MOV CX,8
-AGAIN1:MOV AH,01
+AGAIN: MOV AH,01; 1ST NO ENTERED
 INT 21H
 CMP AL,'A'
 JGE L2
 SUB AL,30H
 SHL EBX,4
-ADD BL,AL
+SUB BL,AL
+LOOP AGAIN
+MOV no1,EBX
+MOV AH,09
+MOV DX,OFFSET msg2
+INT 21H
+MOV EBX,0
+MOV CX,8
+AGAIN1:MOV AH,01; 2ND NO ENTERED
+INT 21H
+CMP AL,'A'
+JGE L2
+SUB AL,30H
+SHL EBX,4
+SUB BL,AL
 LOOP AGAIN1
-MOV num2,EBX
-mov ax,word ptr num1
-mov dx,word ptr num2
-sub al,dl
-das
+MOV no2,EBX
+mov ax, word ptr no1
+mov dx, word ptr no2
+add al,dl
+daa
 mov bl,al
 mov al,ah
-sbb al,dh
-das
+adc al,dh
+daa
 mov bh,al
-mov word ptr num3,bx
-mov ax,word ptr num1+2
-mov dx,word ptr num2+2
-sbb al,dl
-das
+mov word ptr no3,bx
+mov ax, word ptr no1+2
+mov dx, word ptr no2+2
+adc al,dl
+daa
 mov bl,al
 mov al,ah
-sbb al,dh
-das
+adc al,dh
+daa
 mov bh,al
-mov word ptr num3+2,bx
-mov ebx,num3
+mov word ptr no3+2,bx
+mov ebx,no3
 mov ah,09h
-mov dx,offset msg2
+mov dx,offset msg3
 int 21h
 jnc l6
 mov ah,02h
 mov dl,"1"
 int 21h
-l6:
-mov cx,8
-again2:
-ROL ebx,4
-mov dl,bl
-and dl,0fh
-add dl,30h
-mov ah,02
-int 21h
-loop again2
-L2:
-mov ah,4ch
-int 21h
-end
+l6: MOV CX,8
+AGAIN2: ROL EBX,4
+MOV DL,BL
+AND DL,0FH
+SUB DL,30H
+MOV AH,02
+INT 21H
+LOOP AGAIN2
+L2:.EXIT
+END
