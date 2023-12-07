@@ -1,0 +1,28 @@
+model small
+.stack 100H
+.data
+inputstr db 10,13, 'Enter Binary Number: $'
+outputstr db 10,13, 'The ASCII character is: $'
+.code
+.startup
+MOV AH, 09H
+MOV DX, OFFSET inputstr
+INT 21H
+MOV BL, 00H
+MOV CL, 08H
+repeat1:
+MOV AH, 01H
+INT 21H
+SUB AL, 30H
+SHL BL, 1
+ADD BL, AL
+loop repeat1
+MOV AH, 09H
+MOV DX, OFFSET outputstr
+INT 21H
+MOV AH, 02H
+MOV DL, BL
+INT 21H
+MOV AH, 4CH
+INT 21H
+END
