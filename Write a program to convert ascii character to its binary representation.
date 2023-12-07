@@ -1,0 +1,32 @@
+model small
+.stack 100h
+.data
+inputstr db 10,13, 'Enter an ASCII character: $'
+outputstr db 10,13, 'The binary representation is: $'
+.code
+.startup
+MOV AH, 09H
+MOV DX, OFFSET inputstr
+INT 21H
+MOV AH, 01H ; read one character
+INT 21H
+MOV BL, AL
+MOV AH, 09H
+MOV DX, OFFSET outputstr
+INT 21h
+MOV CL, 08H
+BIN_REP:
+SHL BL, 1
+JC PRINTONE
+PRINTZERO:
+MOV DL, 30H
+JMP PRINT
+PRINTONE:
+MOV DL, '1' ; Display '1' for a binary 1
+PRINT:
+MOV AH, 02H
+INT 21H
+LOOP BIN_REP
+MOV AH, 4CH
+INT 21h
+END
