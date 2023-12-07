@@ -1,32 +1,26 @@
-model small
-.stack 100h
+.model small
 .data
-inputstr db 10,13, 'Enter an ASCII character: $'
-outputstr db 10,13, 'The binary representation is: $'
+INPUT DB 10,13,"Enter the binary no:: $"
+OUTPUT DB 10,13,"The ASCII Character is::$"
+ARR DB ?
 .code
 .startup
-MOV AH, 09H
-MOV DX, OFFSET inputstr
+MOV AH,09H
+MOV DX,OFFSET INPUT
 INT 21H
-MOV AH, 01H ; read one character
+MOV BL,00H
+MOV CL,08H
+INPUT1: MOV AH,01H
 INT 21H
-MOV BL, AL
-MOV AH, 09H
-MOV DX, OFFSET outputstr
-INT 21h
-MOV CL, 08H
-BIN_REP:
-SHL BL, 1
-JC PRINTONE
-PRINTZERO:
-MOV DL, 30H
-JMP PRINT
-PRINTONE:
-MOV DL, '1' ; Display '1' for a binary 1
-PRINT:
-MOV AH, 02H
+SUB AL,30H
+SHL BL,1
+ADD BL,AL
+LOOP INPUT1
+MOV AH,09H
+LEA DX,OUTPUT
 INT 21H
-LOOP BIN_REP
-MOV AH, 4CH
-INT 21h
+MOV AH,02H
+MOV DL,BL
+INT 21H
+.EXIT
 END
