@@ -1,6 +1,4 @@
-32 BIT DIVISION
-
-
+                  32 BIT DIVISION
 .model small
 .stack 100H
 .386
@@ -98,7 +96,7 @@ END
 
 
 
-                                                                                  32 BIT MULTIPLICATIO
+                                                                                  32 BIT MULTIPLICATION
 .model small
 .stack 100H
 .386
