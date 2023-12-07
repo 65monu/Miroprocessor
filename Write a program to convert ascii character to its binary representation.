@@ -1,4 +1,4 @@
-.model small
+ .model small
 .data
 INPUT DB 10,13,"Enter the binary no:: $"
 OUTPUT DB 10,13,"The ASCII Character is::$"
